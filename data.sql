@@ -1,3 +1,6 @@
+DELETE FROM node_tree_names;
+DELETE FROM node_tree;
+
 INSERT INTO node_tree
 (idNode, level, iLeft, iRight)
 VALUES
