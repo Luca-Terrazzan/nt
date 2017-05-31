@@ -2,7 +2,7 @@
 namespace Assignment\DataBase;
 
 use Assignment\Config\Config;
-use \PDO;
+use \MySQLi;
 
 require_once __DIR__ . '/config.php';
 
@@ -19,16 +19,19 @@ class DbMngr
     private function __construct()
     {
         $this->config = Config::readConfig()->get('db');
-        $dsn = $this->config['db_type'] . ':host=' . $this->config['endpoint'] . ';dbname=' . $this->config['table'];
-        try {
-            $this->db = new PDO(
-                $dsn,
+        if (function_exists('mysqli_connect')) {
+            $this->db = new MySQLi(
+                $this->config['endpoint'],
                 $this->config['username'],
-                $this->config['password']
+                $this->config['password'],
+                $this->config['schema'],
+                $this->config['port']
             );
-            $this->db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
-        } catch (PDOException $pdoe) {
-            echo 'Database configuration error: ' . $pdoe->getMessage();
+            if ($this->db->connect_error) {
+                die('Connection error: ' . $this->db->connect_error);
+            }
+        } else {
+            die('MySQLi not installed!');
         }
     }
 
@@ -42,14 +45,23 @@ class DbMngr
 
     public function tableScan($tableName)
     {
-        // TODO: check for injections
         $query = 'SELECT * FROM ' . $tableName . ' LIMIT 1000';
-        $rows = $this->db->query($query);
-        // prettyprint every row
-        foreach ($rows as $record) {
-            echo '<pre>';
-            print_r($record);
-            echo '</pre>';
+        $result = $this->executeQuery($query);
+        if ($result) {
+            var_dump($result);
+        }
+    }
+
+    private function executeQuery($query)
+    {
+        $cleanQuery = $this->db->real_escape_string($query);
+        $result = $this->db->query($cleanQuery);
+        if ($result) {
+            $retVal = $result->fetch_all();
+            $result->close();
+            return $retVal;
+        } else {
+            die('Uh oh...Something\'s wrong with your query...Are you trying to inject?!?');
         }
     }
 }
