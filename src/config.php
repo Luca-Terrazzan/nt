@@ -1,5 +1,5 @@
 <?php
-namespace Assignment\Config;
+namespace Assignment\Core;
 
 /**
  * Config file loader
@@ -11,11 +11,13 @@ class Config
     private static $instance;
     private static $config_filename = 'config.json';
 
+    /************************
+     * Singleton constructor
+     */
     private function __construct()
     {
         $this->data = json_decode(file_get_contents(__DIR__ . '/' . self::$config_filename), true);
     }
-
     public static function readConfig()
     {
         if (self::$instance == null) {
@@ -23,6 +25,7 @@ class Config
         }
         return self::$instance;
     }
+    //***********************
 
     public function get(string $key)
     {

@@ -1,10 +1,12 @@
 <?php
 namespace Assignment\DataBase;
 
-use Assignment\Config\Config;
+use Assignment\Core\Config;
+use Assignment\Core\Utils;
 use \MySQLi;
 
 require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/utils.php';
 
 /**
  * Superlightweight database manager
@@ -16,6 +18,9 @@ class DbMngr
     private $config;
     private $db;
 
+    /************************
+     * Singelton constructor
+     */
     private function __construct()
     {
         $this->config = Config::readConfig()->get('db');
@@ -34,7 +39,6 @@ class DbMngr
             die('MySQLi not installed!');
         }
     }
-
     public static function getInstance()
     {
         if (self::$instance == null) {
@@ -42,13 +46,14 @@ class DbMngr
         }
         return self::$instance;
     }
+    //***********************
 
     public function tableScan($tableName)
     {
         $query = 'SELECT * FROM ' . $tableName . ' LIMIT 1000';
         $result = $this->executeQuery($query);
         if ($result) {
-            var_dump($result);
+            Utils::pprint($result);
         }
     }
 
@@ -57,7 +62,7 @@ class DbMngr
         $cleanQuery = $this->db->real_escape_string($query);
         $result = $this->db->query($cleanQuery);
         if ($result) {
-            $retVal = $result->fetch_all();
+            $retVal = $result->fetch_all(MYSQLI_ASSOC);
             $result->close();
             return $retVal;
         } else {
