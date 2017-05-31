@@ -1,8 +1,8 @@
 <?php
-    // API
-    use Assignment\Core\Config;
+// API
+use Assignment\DataBase\DbMngr;
 
-    require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/src/config/dbMngr.php';
 
-    $dbConfig = Config::readConfig();
-    echo $dbConfig->get('db')['port'];
+$db = DbMngr::getInstance();
+$db->tableScan('node_tree');

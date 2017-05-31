@@ -2,6 +2,7 @@
     "db": {
         "db_type"  : "mysql",
         "endpoint" : "localhost",
+        "table"    : "assignment_terrazzan",
         "port"     : 8001,
         "engine"   : "innoDB",
         "username" : "root",
