@@ -1,4 +1,7 @@
 -- TODO: add indexes
+DROP SCHEMA IF EXISTS assignment_terrazzan;
+CREATE SCHEMA assignment_terrazzan;
+USE assignment_terrazzan;
 CREATE TABLE node_tree(
     idNode SMALLINT UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     level SMALLINT UNSIGNED NOT NULL,
