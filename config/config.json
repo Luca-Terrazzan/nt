@@ -1,0 +1,10 @@
+{
+    "db": {
+        "db_type"  : "mysql",
+        "endpoint" : "localhost",
+        "port"     : 8001,
+        "engine"   : "innoDB",
+        "username" : "root",
+        "password" : "admin"
+    }
+}
