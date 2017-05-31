@@ -3,6 +3,8 @@ namespace Assignment\Core;
 
 use Assignment\DataBase\DbMngr;
 
+require_once __DIR__ . '/dbMngr.php';
+
 /**
  * Assignment nested set handler.
  * @author     Luca Terrazzan <luca.terraz@gmail.com>
