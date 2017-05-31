@@ -32,6 +32,7 @@ class DbMngr
                 $this->config['schema'],
                 $this->config['port']
             );
+            $this->db->set_charset('utf8');
             if ($this->db->connect_error) {
                 die('Connection error: ' . $this->db->connect_error);
             }
