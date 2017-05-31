@@ -1,3 +1,6 @@
 # ignore binaries
 *.pdf
 *.exe
+
+# ignore ST3 metadata
+*.sublime-*
