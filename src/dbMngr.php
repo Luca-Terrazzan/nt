@@ -1,5 +1,5 @@
 <?php
-namespace Assignment\DataBase;
+namespace Assignment\Core;
 
 use Assignment\Core\Config;
 use Assignment\Core\Utils;
@@ -58,7 +58,7 @@ class DbMngr
         }
     }
 
-    private function executeQuery($query)
+    public function executeQuery($query)
     {
         $cleanQuery = $this->db->real_escape_string($query);
         $result = $this->db->query($cleanQuery);
@@ -67,7 +67,8 @@ class DbMngr
             $result->close();
             return $retVal;
         } else {
-            die('Uh oh...Something\'s wrong with your query...Are you trying to inject?!?');
+            // TODO: should be handled with a custom exception
+            return 'Uh oh...Something\'s wrong with your query...Are you trying to inject?!?';
         }
     }
 }

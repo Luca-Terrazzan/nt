@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use Assignment\Core\NestedSetHandler;
 
-require_once __DIR__ . '/NestedSetHandler.php';
+require_once __DIR__ . '/nestedSetHandler.php';
 
 final class NestedSetHandlerTest extends TestCase
 {

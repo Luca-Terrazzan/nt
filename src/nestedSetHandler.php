@@ -1,7 +1,7 @@
 <?php
 namespace Assignment\Core;
 
-use Assignment\DataBase\DbMngr;
+use Assignment\DataBase\Core;
 
 require_once __DIR__ . '/dbMngr.php';
 
