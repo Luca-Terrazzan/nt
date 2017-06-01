@@ -9,7 +9,7 @@ final class NestedSetHandlerTest extends TestCase
 {
     public function testRequestHandling()
     {
-        $temp = new NestedSetHandler();
+        $temp = NestedSetHandler::getInstance();
         // mock
         $this->assertTrue(true);
     }

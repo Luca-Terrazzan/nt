@@ -42,7 +42,7 @@ class DbMngr
     }
     public static function getInstance()
     {
-        if (self::$instance == null) {
+        if (self::$instance === null) {
             self::$instance = new DbMngr();
         }
         return self::$instance;
@@ -69,6 +69,20 @@ class DbMngr
         } else {
             // TODO: should be handled with a custom exception
             return 'Uh oh...Something\'s wrong with your query...Are you trying to inject?!?';
+        }
+    }
+
+    public function queryNode($node_id)
+    {
+        if (!is_int($node_id)) {
+            return 'Invalid node id';
+        }
+        $query = 'SELECT * FROM node_tree WHERE idNode = ' . $node_id;
+        $result = $this->db->query($query);
+        if ($result) {
+            $retVal = $result->fetch_assoc();
+            $result->close();
+            return $retVal;
         }
     }
 }

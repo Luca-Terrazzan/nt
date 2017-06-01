@@ -32,4 +32,17 @@ final class NestedSetHandlerTest extends TestCase
         $queryResult = $dbmngr->executeQuery('SELECT * FROM \'node_tree;');
         $this->assertEquals($queryResult, 'Uh oh...Something\'s wrong with your query...Are you trying to inject?!?');
     }
+
+    public function testQuerySingleNode()
+    {
+        $dbmngr = DbMngr::getInstance();
+        $nodeInfo = $dbmngr->queryNode(1);
+        $testData = array(
+            'idNode' => '1',
+            'level'  => '2',
+            'iLeft'  => '2',
+            'iRight' => '3'
+        );
+        $this->assertEquals($nodeInfo, $testData);
+    }
 }
