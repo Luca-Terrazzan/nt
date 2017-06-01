@@ -1,9 +1,11 @@
 <?php
 namespace Assignment\Core;
 
-use Assignment\DataBase\Core;
+use Assignment\Core\DbMngr;
+use Assignment\Core\Utils;
 
 require_once __DIR__ . '/dbMngr.php';
+require_once __DIR__ . '/utils.php';
 
 /**
  * Assignment nested set handler.
@@ -17,7 +19,6 @@ class NestedSetHandler
 
     private function __construct()
     {
-        $this->params = $_GET;
         $this->dbMngr = DbMngr::getInstance();
     }
     public static function getInstance()
@@ -30,6 +31,11 @@ class NestedSetHandler
 
     public function handleRequest($node_id, $language, $search_keyword = '', $page_num = 0, $page_size = 100)
     {
-        //
+        $parent = $this->dbMngr->queryNode($node_id);
+        if ($parent === false) {
+            echo 'Invalid node id';
+            return false;
+        }
+        Utils::pprint($parent);
     }
 }

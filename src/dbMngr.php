@@ -74,8 +74,9 @@ class DbMngr
 
     public function queryNode($node_id)
     {
-        if (!is_int($node_id)) {
-            return 'Invalid node id';
+        // TODO: check for node_id ranges too!
+        if ((string)(int)$node_id !== $node_id) {
+            return false;
         }
         $query = 'SELECT * FROM node_tree WHERE idNode = ' . $node_id;
         $result = $this->db->query($query);

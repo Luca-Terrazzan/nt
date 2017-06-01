@@ -3,9 +3,9 @@
  * Assignment entry point
  * @author     Luca Terrazzan <luca.terraz@gmail.com>
  */
-use Assignment\DataBase\DbMngr;
+use Assignment\Core\NestedSetHandler;
 
-require_once __DIR__ . '/src/dbMngr.php';
+require_once __DIR__ . '/src/nestedSetHandler.php';
 
-$db = DbMngr::getInstance();
-$db->tableScan("node_tree");
+$nset = NestedSetHandler::getInstance();
+$nset = $nset->handleRequest($_GET['node_id'], $_GET['language']);
