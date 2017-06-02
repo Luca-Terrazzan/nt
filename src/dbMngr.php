@@ -82,20 +82,22 @@ class DbMngr
      * takes the smallest interval possible (that is, for leaves, iRight = iLeft + 1, while for other nodes
      * the difference is the smallest amount possible to contain its children).
      * FIXME: manage nodes without translations, they are being skipped atm
+     * TODO: validation for empty pages (e.g. page_num > last page)
      *
      * @param int $iLeft
      * @param int $iRight
      * @param string $language
      * @return array Array of nodes
      */
-    public function queryChildren($iLeft, $iRight, $language)
+    public function queryChildren($iLeft, $iRight, $language, $pageNum = 0, $pageSize = 100)
     {
         $language = $this->cleanParam($language);
         $query = 'SELECT Child.idNode, Trans.nodeName, ROUND((Child.iRight - Child.iLeft + 1) / 2) AS Children '
             . 'FROM node_tree AS Child, node_tree AS Parent, node_tree_names AS Trans '
             . 'WHERE Child.iLeft > Parent.iLeft AND Child.iRight < Parent.iRight '
             . 'AND Parent.iLeft = ' . $iLeft . ' AND Parent.iRight = ' . $iRight . ' '
-            . 'AND Child.idNode = Trans.idNode AND Trans.language = "' . $language . '"';
+            . 'AND Child.idNode = Trans.idNode AND Trans.language = "' . $language . '" '
+            . 'LIMIT ' . $pageSize * $pageNum . ', ' . $pageSize;
         return $this->executeQuery($query);
     }
 
