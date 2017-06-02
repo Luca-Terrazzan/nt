@@ -59,7 +59,7 @@ class DbMngr
         } else {
             // TODO: should be handled with a custom exception
             // $result->error holds any error message related to the query
-            return 'Are you trying to inject?!?';
+            return -6; // Are you trying to inject?!?
         }
     }
 
@@ -67,7 +67,13 @@ class DbMngr
     {
         $node_id = $this->cleanParam($node_id);
         $query = 'SELECT * FROM node_tree WHERE idNode = ' . $node_id;
-        return $this->executeQuery($query);
+        $node = $this->executeQuery($query);
+        if (is_array($node) && isset($node[0])) {
+            // return first node, should never find more than one.
+            return $node[0];
+        } else {
+            return $node;
+        }
     }
 
     /**

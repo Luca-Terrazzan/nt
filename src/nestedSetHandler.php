@@ -42,20 +42,24 @@ class NestedSetHandler
      */
     public function handleRequest($node_id, $language, $search_keyword = '', $page_num = 0, $page_size = 100)
     {
-        $errorType = $this->validateParams($node_id, $language, $search_keyword, $page_num, $page_size);
-        if ($errorType < 0) {
-            $this->response->error($errorType)->send();
-            return false;
+        $paramErrorType = $this->validateParams($node_id, $language, $search_keyword, $page_num, $page_size);
+        if ($paramErrorType < 0) {
+            // if outcome is negative number then it is an error code
+            return $this->errorHandler($paramErrorType);
         }
 
-        $parent = $this->dbMngr->queryNode($node_id);
-        if (!count($parent) === 1) {
-            $this->response->error('-5')->send();
-            return false;
+        $parentNode = $this->dbMngr->queryNode($node_id);
+        if (!is_array($parentNode)) {
+            // if outcome is negative number then it is an error code
+            return $this-errorHandler($parentNode);
         }
-        $parent = $parent[0];
-        $nodes = $this->dbMngr->queryChildren($parent['iLeft'], $parent['iRight'], $language);
+        $nodes = $this->dbMngr->queryChildren($parentNode['iLeft'], $parentNode['iRight'], $language);
+        if (!is_array($nodes)) {
+            // if outcome is negative number then it is an error code
+            return $this->errorHandler($nodes);
+        }
         $this->response->success($nodes)->send();
+        return $nodes;
     }
 
     /**
@@ -123,5 +127,11 @@ class NestedSetHandler
             return -1;
         }
         return 1;
+    }
+
+    private function errorHandler($errorCode)
+    {
+        $this->response->error($paramErrorType)->send();
+        return false;
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+namespace Assignment\Test;
+
 use PHPUnit\Framework\TestCase;
 use Assignment\Core\DbMngr;
 
@@ -28,9 +30,9 @@ final class NestedSetHandlerTest extends TestCase
     {
         $dbmngr = DbMngr::getInstance();
         $queryResult = $dbmngr->executeQuery('SELECT * FROM node_tree; SELECT * FROM node_tree_names');
-        $this->assertEquals($queryResult, 'Are you trying to inject?!?');
+        $this->assertEquals($queryResult, -6);
         $queryResult = $dbmngr->executeQuery('SELECT * FROM \'node_tree;');
-        $this->assertEquals($queryResult, 'Are you trying to inject?!?');
+        $this->assertEquals($queryResult, -6);
     }
 
     public function testQuerySingleNode()
@@ -44,13 +46,13 @@ final class NestedSetHandlerTest extends TestCase
             'iLeft'  => '2',
             'iRight' => '3'
         );
-        $this->assertEquals($nodeInfo['0'], $testData);
+        $this->assertEquals($nodeInfo, $testData);
 
         // tests for invalid params
         $nodeInfo = $dbmngr->queryNode(-1);
         $this->assertEquals($nodeInfo, array());
-        $nodeInfo = $dbmngr->queryNode('"wrong"');
-        $this->assertEquals($nodeInfo, 'Are you trying to inject?!?');
+        $nodeInfo = $dbmngr->queryNode('; TOTALLY NOT AN INJECTION');
+        $this->assertEquals($nodeInfo, -6);
     }
 
     public function testQueryChildren()
@@ -65,6 +67,5 @@ final class NestedSetHandlerTest extends TestCase
         // tests wrong params
         $nodes = $dbmngr->queryChildren(1, 5, 'Italian; SELECT * FROM node_tree;');
         $this->assertEquals(count($nodes), 0);
-
     }
 }

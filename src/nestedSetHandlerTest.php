@@ -1,5 +1,7 @@
 <?php
 
+namespace Assignment\Test;
+
 use PHPUnit\Framework\TestCase;
 use Assignment\Core\NestedSetHandler;
 
@@ -9,8 +11,19 @@ final class NestedSetHandlerTest extends TestCase
 {
     public function testRequestHandling()
     {
-        $temp = NestedSetHandler::getInstance();
-        // mock
-        $this->assertTrue(true);
+        $this->suppressOutputs();
+        $nsHandler = NestedSetHandler::getInstance();
+        // tests base use case
+        $nodes = $nsHandler->handleRequest(5, 'Italian');
+        $this->assertEquals(count($nodes), 11);
+    }
+
+    /**
+     * This is to avoid standard output responses during test executions
+     */
+    public function suppressOutputs()
+    {
+        // Suppress  output to console
+        $this->setOutputCallback(function() {});
     }
 }
