@@ -51,8 +51,7 @@ class DbMngr
 
     public function executeQuery($query)
     {
-        $cleanQuery = $this->db->real_escape_string($query);
-        $result = $this->db->query($cleanQuery);
+        $result = $this->db->query($query);
         if ($result) {
             $retVal = $result->fetch_all(MYSQLI_ASSOC);
             $result->close();
@@ -65,23 +64,30 @@ class DbMngr
 
     public function queryNode($node_id)
     {
+        $node_id = $this->cleanParam($node_id);
         $query = 'SELECT * FROM node_tree WHERE idNode = ' . $node_id;
-        $result = $this->db->query($query);
-        if ($result) {
-            $retVal = $result->fetch_assoc();
-            $result->close();
-            return $retVal;
-        }
+        return $this->executeQuery($query);
     }
 
     public function queryChildren($iLeft, $iRight, $language)
     {
+        $language = $this->cleanParam($language);
         $query = 'SELECT Child.idNode, Trans.nodeName '
             . 'FROM node_tree AS Child, node_tree AS Parent, node_tree_names AS Trans '
             . 'WHERE Child.iLeft > Parent.iLeft AND Child.iRight < Parent.iRight '
             . 'AND Parent.iLeft = ' . $iLeft . ' AND Parent.iRight = ' . $iRight . ' '
             . 'AND Child.idNode = Trans.idNode AND Trans.language = "' . $language . '"';
-            echo $query;
         return $this->executeQuery($query);
+    }
+
+    /**
+     * Sanitize a string parameter
+     *
+     * @param string $param
+     * @return string The clean string
+     */
+    private function cleanParam($param)
+    {
+        return $this->db->real_escape_string($param);
     }
 }

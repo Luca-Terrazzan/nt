@@ -10,6 +10,7 @@
         "-1" : "Missing mandatory params",
         "-2" : "Invalid node id",
         "-3" : "Invalid page number requested",
-        "-4" : "invalid page size requested"
+        "-4" : "invalid page size requested",
+        "-5" : "Invalid DB data"
     }
 }

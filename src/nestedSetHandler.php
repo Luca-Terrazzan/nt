@@ -49,6 +49,11 @@ class NestedSetHandler
         }
 
         $parent = $this->dbMngr->queryNode($node_id);
+        if (!count($parent) === 1) {
+            $this->response->error('-5')->send();
+            return false;
+        }
+        $parent = $parent[0];
         $nodes = $this->dbMngr->queryChildren($parent['iLeft'], $parent['iRight'], $language);
         $this->response->success($nodes)->send();
     }
