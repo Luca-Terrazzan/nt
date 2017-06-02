@@ -49,15 +49,6 @@ class DbMngr
     }
     //***********************
 
-    public function tableScan($tableName)
-    {
-        $query = 'SELECT * FROM ' . $tableName . ' LIMIT 1000';
-        $result = $this->executeQuery($query);
-        if ($result) {
-            Utils::pprint($result);
-        }
-    }
-
     public function executeQuery($query)
     {
         $cleanQuery = $this->db->real_escape_string($query);
@@ -68,16 +59,12 @@ class DbMngr
             return $retVal;
         } else {
             // TODO: should be handled with a custom exception
-            return 'Uh oh...Something\'s wrong with your query...Are you trying to inject?!?';
+            return 'Are you trying to inject?!?';
         }
     }
 
     public function queryNode($node_id)
     {
-        // TODO: check for node_id ranges too!
-        if ((string)(int)$node_id !== $node_id) {
-            return false;
-        }
         $query = 'SELECT * FROM node_tree WHERE idNode = ' . $node_id;
         $result = $this->db->query($query);
         if ($result) {
@@ -85,5 +72,16 @@ class DbMngr
             $result->close();
             return $retVal;
         }
+    }
+
+    public function queryChildren($iLeft, $iRight, $language)
+    {
+        $query = 'SELECT Child.idNode, Trans.nodeName '
+            . 'FROM node_tree AS Child, node_tree AS Parent, node_tree_names AS Trans '
+            . 'WHERE Child.iLeft > Parent.iLeft AND Child.iRight < Parent.iRight '
+            . 'AND Parent.iLeft = ' . $iLeft . ' AND Parent.iRight = ' . $iRight . ' '
+            . 'AND Child.idNode = Trans.idNode AND Trans.language = "' . $language . '"';
+            echo $query;
+        return $this->executeQuery($query);
     }
 }
