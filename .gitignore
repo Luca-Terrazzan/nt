@@ -4,3 +4,9 @@
 
 # ignore ST3 metadata
 *.sublime-*
+
+# PHPunit logs
+log
+
+# VSCode metadata
+.vscode
