@@ -37,4 +37,10 @@ VALUES
 (8, 'english', 'Italy'),
 (8, 'italian', 'Italia'),
 (9, 'english', 'Europe'),
-(9, 'italian', 'Europa');
+(9, 'italian', 'Europa'),
+(10, 'english', 'Developers'),
+(10, 'italian', 'Sviluppatori'),
+(11, 'english', 'North America'),
+(11, 'italian', 'Nord America'),
+(12, 'english', 'Quality Assurance'),
+(12, 'italian', 'Controllo Qualità');
