@@ -58,6 +58,7 @@ class DbMngr
             return $retVal;
         } else {
             // TODO: should be handled with a custom exception
+            // $result->error holds any error message related to the query
             return 'Are you trying to inject?!?';
         }
     }
@@ -69,10 +70,22 @@ class DbMngr
         return $this->executeQuery($query);
     }
 
+    /**
+     * Builds the query to fetch node children's data.
+     * Note: the children count for each node is based on the assumption that each node
+     * takes the smallest interval possible (that is, for leaves, iRight = iLeft + 1, while for other nodes
+     * the difference is the smallest amount possible to contain its children).
+     * FIXME: manage nodes without translations, they are being skipped atm
+     *
+     * @param int $iLeft
+     * @param int $iRight
+     * @param string $language
+     * @return array Array of nodes
+     */
     public function queryChildren($iLeft, $iRight, $language)
     {
         $language = $this->cleanParam($language);
-        $query = 'SELECT Child.idNode, Trans.nodeName '
+        $query = 'SELECT Child.idNode, Trans.nodeName, ROUND((Child.iRight - Child.iLeft + 1) / 2) AS Children '
             . 'FROM node_tree AS Child, node_tree AS Parent, node_tree_names AS Trans '
             . 'WHERE Child.iLeft > Parent.iLeft AND Child.iRight < Parent.iRight '
             . 'AND Parent.iLeft = ' . $iLeft . ' AND Parent.iRight = ' . $iRight . ' '

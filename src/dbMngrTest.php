@@ -28,13 +28,14 @@ final class NestedSetHandlerTest extends TestCase
     {
         $dbmngr = DbMngr::getInstance();
         $queryResult = $dbmngr->executeQuery('SELECT * FROM node_tree; SELECT * FROM node_tree_names');
-        $this->assertEquals($queryResult, 'Uh oh...Something\'s wrong with your query...Are you trying to inject?!?');
+        $this->assertEquals($queryResult, 'Are you trying to inject?!?');
         $queryResult = $dbmngr->executeQuery('SELECT * FROM \'node_tree;');
-        $this->assertEquals($queryResult, 'Uh oh...Something\'s wrong with your query...Are you trying to inject?!?');
+        $this->assertEquals($queryResult, 'Are you trying to inject?!?');
     }
 
     public function testQuerySingleNode()
     {
+        // tests for base use case
         $dbmngr = DbMngr::getInstance();
         $nodeInfo = $dbmngr->queryNode(1);
         $testData = array(
@@ -43,6 +44,27 @@ final class NestedSetHandlerTest extends TestCase
             'iLeft'  => '2',
             'iRight' => '3'
         );
-        $this->assertEquals($nodeInfo, $testData);
+        $this->assertEquals($nodeInfo['0'], $testData);
+
+        // tests for invalid params
+        $nodeInfo = $dbmngr->queryNode(-1);
+        $this->assertEquals($nodeInfo, array());
+        $nodeInfo = $dbmngr->queryNode('"wrong"');
+        $this->assertEquals($nodeInfo, 'Are you trying to inject?!?');
+    }
+
+    public function testQueryChildren()
+    {
+        $dbmngr = DbMngr::getInstance();
+        // tests for base use case
+        $nodes = $dbmngr->queryChildren(1, 24, 'Italian');
+        $this->assertEquals(count($nodes), 11);
+        // tests leaf
+        $nodes = $dbmngr->queryChildren(4, 5, 'Italian');
+        $this->assertEquals(count($nodes), 0);
+        // tests wrong params
+        $nodes = $dbmngr->queryChildren(1, 5, 'Italian; SELECT * FROM node_tree;');
+        $this->assertEquals(count($nodes), 0);
+
     }
 }
