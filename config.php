@@ -36,7 +36,7 @@ class Config
      * @param  string    $key
      * @return string    the value
      */
-    public function get(string $key)
+    public function get($key)
     {
         if (!isset($this->data[$key])) {
             echo 'Key ' . $key . ' not found! Please check the configuration .json';
