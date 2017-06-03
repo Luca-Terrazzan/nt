@@ -30,9 +30,9 @@ final class NestedSetHandlerTest extends TestCase
     {
         $dbmngr = DbMngr::getInstance();
         $queryResult = $dbmngr->executeQuery('SELECT * FROM node_tree; SELECT * FROM node_tree_names');
-        $this->assertEquals($queryResult, -6);
+        $this->assertEquals($queryResult, array("error" => -6));
         $queryResult = $dbmngr->executeQuery('SELECT * FROM \'node_tree;');
-        $this->assertEquals($queryResult, -6);
+        $this->assertEquals($queryResult, array("error" => -6));
     }
 
     public function testQuerySingleNode()
@@ -52,7 +52,7 @@ final class NestedSetHandlerTest extends TestCase
         $nodeInfo = $dbmngr->queryNode(-1);
         $this->assertEquals($nodeInfo, array());
         $nodeInfo = $dbmngr->queryNode('; TOTALLY NOT AN INJECTION');
-        $this->assertEquals($nodeInfo, -6);
+        $this->assertEquals($nodeInfo, array("error" => -6));
     }
 
     public function testQueryChildren()

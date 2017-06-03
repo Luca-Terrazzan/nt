@@ -2,7 +2,8 @@
 namespace Assignment\Core;
 
 /**
- * Config file loader
+ * Config file loader, reads from a file (config.json)
+ *
  * @author     Luca Terrazzan <luca.terraz@gmail.com>
  */
 class Config
@@ -27,6 +28,12 @@ class Config
     }
     //***********************
 
+    /**
+     * Gets a value from the config data
+     *
+     * @param  string    $key
+     * @return string    the value
+     */
     public function get(string $key)
     {
         if (!isset($this->data[$key])) {
