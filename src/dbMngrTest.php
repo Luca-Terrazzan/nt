@@ -8,7 +8,7 @@ use Assignment\Core\DbMngr;
 require_once __DIR__ . '/dbMngr.php';
 
 /**
- * Tests for DbMngr
+ * PHPUnit Tests for DbMngr
  * FIXME: db mock + dependency stubs
  *
  * @author     Luca Terrazzan <luca.terraz@gmail.com>
