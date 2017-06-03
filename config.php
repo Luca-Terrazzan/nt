@@ -12,7 +12,7 @@ class Config
     private $data;
     private static $instance;
     // configuration file path
-    private static $config_filename = 'src/config.json';
+    private static $config_filename = 'config.json';
 
     /************************
      * Singleton constructor
