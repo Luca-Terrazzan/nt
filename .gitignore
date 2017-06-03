@@ -2,11 +2,11 @@
 *.pdf
 *.exe
 
-# ignore ST3 metadata
+# ignore ST3 and VSC metadata...yes I use both
 *.sublime-*
+# VSCode metadata
+.vscode
 
 # PHPunit logs
 log
 
-# VSCode metadata
-.vscode

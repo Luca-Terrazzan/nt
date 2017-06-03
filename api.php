@@ -8,6 +8,8 @@ require_once __DIR__ . '/src/nestedSetHandler.php';
 
 /**
  * Assignment entry point
+ * TODO: refactor with autoloader
+ * TODO: add custom exceptions
  *
  * @author     Luca Terrazzan <luca.terraz@gmail.com>
  */

@@ -4,7 +4,7 @@ namespace Assignment\Core;
 use Assignment\Core\Config;
 use \MySQLi;
 
-require_once __DIR__ . '/config.php';
+require_once __DIR__ . '/../config.php';
 
 /**
  * Superlightweight database manager

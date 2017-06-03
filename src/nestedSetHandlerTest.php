@@ -10,6 +10,9 @@ require __DIR__ . '/nestedSetHandler.php';
  * Test class for the request handling.
  * Note: all parameters are strings, as they come from the $_GET
  * array in api.php
+ * FIXME: db mock + dependency stubs
+ *
+ * @author     Luca Terrazzan <luca.terraz@gmail.com>
  */
 final class NestedSetHandlerTest extends TestCase
 {

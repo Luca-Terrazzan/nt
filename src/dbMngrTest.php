@@ -7,7 +7,13 @@ use Assignment\Core\DbMngr;
 
 require_once __DIR__ . '/dbMngr.php';
 
-final class NestedSetHandlerTest extends TestCase
+/**
+ * Tests for DbMngr
+ * FIXME: db mock + dependency stubs
+ *
+ * @author     Luca Terrazzan <luca.terraz@gmail.com>
+ */
+final class DbMngrTest extends TestCase
 {
     public function testConstructor()
     {
@@ -15,10 +21,6 @@ final class NestedSetHandlerTest extends TestCase
         $this->assertInstanceOf(DbMngr::class, $dbmngr);
     }
 
-    /**
-     * Test queries.
-     * WARNING: this test is heavily dependant on actual data, not a proper unit test!
-     */
     public function testQuery()
     {
         $dbmngr = DbMngr::getInstance();
