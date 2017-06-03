@@ -1,0 +1,17 @@
+{
+    "db": {
+        "endpoint" : "localhost",
+        "schema"   : "assignment_terrazzan",
+        "port"     : 3306,
+        "username" : "root",
+        "password" : "admin"
+    },
+    "error_msg": {
+        "-1" : "Missing mandatory params",
+        "-2" : "Invalid node id",
+        "-3" : "Invalid page number requested",
+        "-4" : "invalid page size requested",
+        "-5" : "Invalid DB data",
+        "-6" : "Are you trying to inject?!?"
+    }
+}
